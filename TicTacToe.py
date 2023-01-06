@@ -25,7 +25,7 @@ class Boxes:
             Boxes.values[self.x][self.y] = 'O'
         self.button.config(state='disabled', image=self.img)
         
-        if Boxes.checkWin():
+        if checkWin():
             winner.config(text="Player "+ (str)(Boxes.numFilled%1 + 1)+" Wins!")
             disableBoard()
         elif Boxes.numFilled == 9:
@@ -34,26 +34,26 @@ class Boxes:
         else:
             currPlayer.config(text="Player "+ (str)(Boxes.numFilled%2 + 1))
 
-    def checkWin():
-        #Check the diagonal rows for a win
-        if Boxes.values[0][0]==Boxes.values[1][1] and Boxes.values[1][1]==Boxes.values[2][2] and Boxes.values[1][1]!='Blank':
+def checkWin():
+    #Check the diagonal rows for a win
+    if Boxes.values[0][0]==Boxes.values[1][1] and Boxes.values[1][1]==Boxes.values[2][2] and Boxes.values[1][1]!='Blank':
+        return True
+        
+    if Boxes.values[0][2]==Boxes.values[1][1] and Boxes.values[1][1]==Boxes.values[2][0] and Boxes.values[0][2]!='Blank':
+        return True 
+    
+    for i in range(3):
+        #Check the rows for a win
+        if Boxes.values[i][0]==Boxes.values[i][1] and Boxes.values[i][1]==Boxes.values[i][2] and Boxes.values[i][0]!='Blank':
             return True
-            
-        if Boxes.values[0][2]==Boxes.values[1][1] and Boxes.values[1][1]==Boxes.values[2][0] and Boxes.values[0][2]!='Blank':
-            return True 
-        
-        for i in range(3):
-            #Check the rows for a win
-            if Boxes.values[i][0]==Boxes.values[i][1] and Boxes.values[i][1]==Boxes.values[i][2] and Boxes.values[1][1]!='Blank':
-                return True
 
-        for i in range(3):
-            #Check the columns for a win
-            if Boxes.values[0][i]==Boxes.values[1][i] and Boxes.values[1][i]==Boxes.values[2][i] and Boxes.values[0][1]!='Blank':
-                return True
-        
-        #Else there exists no wins
-        return False
+    for i in range(3):
+        #Check the columns for a win
+        if Boxes.values[0][i]==Boxes.values[1][i] and Boxes.values[1][i]==Boxes.values[2][i] and Boxes.values[0][i]!='Blank':
+            return True
+    
+    #Else there exists no wins
+    return False
 
 def disableBoard():
     box11.button.config(state='disabled')
