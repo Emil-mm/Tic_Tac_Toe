@@ -24,15 +24,53 @@ class Boxes:
             self.img = ImageTk.PhotoImage(Image.open("O.png"))
             Boxes.values[self.x][self.y] = 'O'
         self.button.config(state='disabled', image=self.img)
-        
-        if checkWin():
-            winner.config(text="Player "+ (str)(Boxes.numFilled%1 + 1)+" Wins!")
+
+        # A player can only win after 5 turns, then check if there is a win
+        if Boxes.numFilled >= 5 and checkWin():
+            # The previous player is (Box.numFilled - 1)%2
+            winner.config(text="Player "+ (str)((Boxes.numFilled - 1)%2 + 1)+" Wins!")
             disableBoard()
         elif Boxes.numFilled == 9:
             winner.config(text="Draw")
             disableBoard()
         else:
-            currPlayer.config(text="Player "+ (str)(Boxes.numFilled%2 + 1))
+            # Even numFilled is player 1 and Odd numFilled is player 2
+            currPlayer.config(text="Player "+ (str)(Boxes.numFilled%2 + 1)+"'s Turn!")
+
+    def restart():
+        # Change all values back to the default Button
+        box11.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box11.button.config(image=box11.img, state='normal')
+        
+        box12.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box12.button.config(image=box12.img, state='normal')
+        
+        box13.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box13.button.config(image=box13.img, state='normal')
+
+        box21.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box21.button.config(image=box21.img, state='normal')
+        
+        box22.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box22.button.config(image=box22.img, state='normal')
+        
+        box23.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box23.button.config(image=box23.img, state='normal')
+
+        box31.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box31.button.config(image=box31.img, state='normal')
+        
+        box32.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box32.button.config(image=box32.img, state='normal')
+        
+        box33.img = ImageTk.PhotoImage(Image.open("Blank.png"))
+        box33.button.config(image=box33.img, state='normal')
+
+        #Reset number count and values
+        Boxes.numFilled = 0
+        Boxes.values = [['Blank' for j in range(3)] for i in range(3)]
+        currPlayer.config(text="Player "+ (str)(Boxes.numFilled%2 + 1)+"'s Turn!")
+        winner.config(text="")
 
 def checkWin():
     #Check the diagonal rows for a win
@@ -69,16 +107,18 @@ def disableBoard():
     box33.button.config(state='disabled')
         
 root = Tk()
+root.title('Tic Tac Toe')
+
 title = Label(text="TIC TAC TOE", justify='center')
 title.grid(row=0, column=0, columnspan=3)
 
-currPlayer = Label(text="Player "+ (str)(Boxes.numFilled%2 + 1), justify='center')
+currPlayer = Label(text="Player "+ (str)(Boxes.numFilled%2 + 1)+"'s Turn!", justify='center')
 currPlayer.grid(row=1, column=0, columnspan=3)
 
 winner = Label(text="", justify='center')
 winner.grid(row=5, column=0, columnspan=3)
 
-#Creating the Board 
+#Creating the individual boxes on the Board 
 box11 = Boxes(0,0)
 box12 = Boxes(0,1)
 box13 = Boxes(0,2)
@@ -90,5 +130,8 @@ box23 = Boxes(1,2)
 box31 = Boxes(2,0)
 box32 = Boxes(2,1)
 box33 = Boxes(2,2)
+
+restartBttn = Button(root, text = "RESTART", command= lambda: Boxes.restart())
+restartBttn.grid(row=6, column=0, columnspan=3)
 
 root.mainloop()
