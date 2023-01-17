@@ -109,13 +109,13 @@ def disableBoard():
 root = Tk()
 root.title('Tic Tac Toe')
 
-title = Label(text="TIC TAC TOE", justify='center')
+title = Label(text="TIC TAC TOE", justify='center', font=('arial', 20, 'bold'))
 title.grid(row=0, column=0, columnspan=3)
 
-currPlayer = Label(text="Player "+ (str)(Boxes.numFilled%2 + 1)+"'s Turn!", justify='center')
+currPlayer = Label(text="Player "+ (str)(Boxes.numFilled%2 + 1)+"'s Turn!", justify='center', font=('arial', 12))
 currPlayer.grid(row=1, column=0, columnspan=3)
 
-winner = Label(text="", justify='center')
+winner = Label(text="", justify='center', font=('arial', 12))
 winner.grid(row=5, column=0, columnspan=3)
 
 #Creating the individual boxes on the Board 
